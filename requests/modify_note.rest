@@ -1,7 +1,15 @@
-PUT https://bootcamp-notes.up.railway.app/api/notes/1
+PUT http://localhost:3001/api/notes/640487535b595667f2604b06
 Content-Type: application/json
 
 {
-    "content": "He podido modificar la nota",
-    "important": false
+     "content": "Nota modificada en MongoDB",
+     "important": false
 }
+
+# PUT https://bootcamp-notes.up.railway.app/api/notes/1
+# Content-Type: application/json
+
+# {
+#     "content": "He podido modificar la nota",
+#     "important": false
+# }

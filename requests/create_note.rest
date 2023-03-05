@@ -1,7 +1,16 @@
-POST https://bootcamp-notes.up.railway.app/api/notes
+POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "Este cliente REST esta de puta madre",
-    "important": false
+    "content": "Nota anadida a MongoDB",
+    "important": true
 }
+
+
+# POST https://bootcamp-notes.up.railway.app/api/notes
+# Content-Type: application/json
+
+# {
+#     "content": "Este cliente REST esta de puta madre",
+#     "important": false
+# }
