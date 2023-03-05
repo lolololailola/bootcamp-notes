@@ -1,4 +1,4 @@
-PUT http://localhost:3001/api/notes/2
+PUT https://bootcamp-notes.up.railway.app/api/notes/1
 Content-Type: application/json
 
 {

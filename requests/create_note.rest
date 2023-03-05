@@ -1,4 +1,4 @@
-POST http://localhost:3001/api/notes
+POST https://bootcamp-notes.up.railway.app/api/notes
 Content-Type: application/json
 
 {
