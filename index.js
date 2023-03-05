@@ -74,6 +74,29 @@ app.post('/api/notes', (request, response) => {
   response.json(note)
 })
 
+app.put('/api/notes/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const note = notes.find((n) => n.id === id)
+
+  if (note) {
+    const body = request.body
+
+    if (!body.content) {
+      return response.status(400).json({
+        error: 'content missing',
+      })
+    }
+
+    const modifiedNote = { ...note, important: body.important }
+
+    notes = notes.concat(modifiedNote)
+
+    response.json(modifiedNote)
+  } else {
+    response.status(404).end()
+  }
+})
+
 app.delete('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id)
   notes = notes.filter((note) => note.id !== id)
