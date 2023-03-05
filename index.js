@@ -89,8 +89,7 @@ app.put('/api/notes/:id', (request, response) => {
 
     const modifiedNote = { ...note, important: body.important }
 
-    notes = notes.concat(modifiedNote)
-
+    notes = notes.map((n) => (n.id !== id ? n : modifiedNote))
     response.json(modifiedNote)
   } else {
     response.status(404).end()
