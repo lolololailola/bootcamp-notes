@@ -12,11 +12,13 @@
   "author": "Manuel Ruiz",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^7.0.0"
+    "mongoose": "^6.10.2",
+    "mongoose-unique-validator": "^3.1.0"
   },
   "devDependencies": {
     "ava": "^5.2.0",

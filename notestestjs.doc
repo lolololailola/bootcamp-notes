@@ -1,0 +1,69 @@
+import test from 'ava'
+import mongoose from 'mongoose'
+
+import { Note } from '../models/note.js'
+import { server } from '../index.js'
+import { api, getAllContentFromNotes } from '../utils/helpers-testing.js'
+
+test('notes are returned as json', async (t) => {
+  const result = await api.get('/api/notes')
+  t.is(result.header['content-type'], 'application/json; charset=utf-8')
+  t.is(result.statusCode, 200)
+})
+
+// test('there is one note', async (t) => {
+//   const result = await api.get('/api/notes')
+//   t.is(result.body.length, 1)
+// })
+
+test('the number of notes is calculated correctly', async (t) => {
+  const result = await api.get('/api/notes')
+  const numberOfNotes = await Note.estimatedDocumentCount()
+  t.is(result.body.length, numberOfNotes)
+})
+
+test('the first note is about fake 1', async (t) => {
+  const result = await api.get('/api/notes')
+  t.is(result.body[0].content, 'Nota fake de test 1')
+})
+
+test('a valid note can be added', async (t) => {
+  const numberOfNotes = await Note.estimatedDocumentCount()
+
+  const newNote = {
+    content: 'Nota fake añadida desde test',
+    important: true,
+  }
+
+  const result = await api.post('/api/notes').send(newNote)
+  t.is(result.header['content-type'], 'application/json; charset=utf-8')
+  t.is(result.statusCode, 200)
+
+  const { contents, actualNumberOfNotes } = await getAllContentFromNotes()
+  t.is(
+    contents.find((c) => c === newNote.content),
+    newNote.content
+  )
+  t.is(actualNumberOfNotes, numberOfNotes + 1)
+})
+
+test('note without content cannot be added', async (t) => {
+  const numberOfNotes = await Note.estimatedDocumentCount()
+
+  const newNote = {
+    important: true,
+  }
+
+  const result = await api.post('/api/notes').send(newNote)
+  t.is(result.statusCode, 400)
+
+  const response = await api.get('/api/notes')
+  t.is(response.body.length, numberOfNotes)
+})
+
+test.after(async () => {
+  server.close()
+  console.log('server closed')
+  await mongoose.connection.close()
+  console.log('connection to DB closed')
+})

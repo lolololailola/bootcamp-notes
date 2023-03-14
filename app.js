@@ -9,6 +9,7 @@ import mongoose from 'mongoose'
 
 import { MONGODB_URI, MONGODB_URI_TEST } from './utils/config.js'
 import { notesRouter } from './controllers/notes.js'
+import { usersRouter } from './controllers/users.js'
 import {
   requestLogger,
   unknownEndpoint,
@@ -21,6 +22,7 @@ const connectionString =
 
 info('connecting to', connectionString)
 
+mongoose.set('strictQuery', false)
 mongoose
   .connect(connectionString)
   .then(() => {
@@ -35,6 +37,7 @@ app.use(express.json())
 app.use(requestLogger)
 
 app.use('/api/notes', notesRouter)
+app.use('/api/users', usersRouter)
 
 app.use(unknownEndpoint)
 app.use(errorHandler)
