@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { Router } from 'express'
 
-import { User } from '../models/user'
+import { User } from '../models/user.js'
 
 export const loginRouter = Router()
 
@@ -24,7 +24,9 @@ loginRouter.post('/', async (request, response) => {
     id: user._id,
   }
 
-  const token = jwt.sign(userForToken, process.env.SECRET)
+  const token = jwt.sign(userForToken, process.env.SECRET, {
+    expiresIn: 60 * 60,
+  })
 
   response.status(200).send({ token, username: user.username, name: user.name })
 })

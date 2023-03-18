@@ -1,12 +1,11 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hbm9sbyIsImlkIjoiNjQwZTM1ZTg1MzYwNTBkOTYxNjdlN2U3IiwiaWF0IjoxNjc4OTEzMDkxfQ.eHLNtIj5FblishIIbStZjxnnpiHBESEM0nZbgC6DdKE
 
 {
-    "content": "Otra nota mas",
-    "important": true,
-    "userId": "640e35e8536050d96167e7e7"
+    "content": "Nueva nota autorizada con token",
+    "important": true
 }
-
 
 # POST https://bootcamp-notes.up.railway.app/api/notes
 # Content-Type: application/json

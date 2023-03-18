@@ -1,7 +1,16 @@
 import { Router } from 'express'
+import jwt from 'jsonwebtoken'
 
 import { Note } from '../models/note.js'
 import { User } from '../models/user.js'
+
+const getTokenFrom = (request) => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
 
 export const notesRouter = Router()
 
@@ -28,7 +37,7 @@ notesRouter.get('/:id', (request, response, next) => {
 })
 
 notesRouter.post('/', async (request, response, next) => {
-  const { content, important = false, userId } = request.body
+  const { content, important = false } = request.body
 
   if (content === undefined) {
     return response.status(400).json({
@@ -36,7 +45,12 @@ notesRouter.post('/', async (request, response, next) => {
     })
   }
 
-  const user = await User.findById(userId)
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
 
   const note = new Note({
     content,
